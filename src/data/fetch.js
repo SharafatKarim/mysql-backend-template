@@ -2,9 +2,7 @@ import { pool } from "../db/connection.js";
 
 export const fetchData = async (req, res) => {
   try {
-    console.log(req.body);
     const { query } = req.body;
-    
     const [rows] = await pool.query(query);
     res.json(rows);
   } catch (error) {

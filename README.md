@@ -19,6 +19,17 @@ npm install
 npm run dev
 ```
 
+## Config
+
+- Check the `src/index.js` and edit `cors` to allow only specific origins.
+
+```js
+app.use(cors({
+  origin: 'http://localhost:5173', // Change this to your frontend URL
+  credentials: true,
+}));
+```
+
 ## API
 
 The service exposes the following endpoints:
