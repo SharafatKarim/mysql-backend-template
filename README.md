@@ -21,6 +21,8 @@ npm run dev
 
 ## Config
 
+### CORS
+
 - Check the `src/index.js` and edit `cors` to allow only specific origins.
 
 ```js
@@ -29,6 +31,65 @@ app.use(cors({
   credentials: true,
 }));
 ```
+
+### Database
+
+Our database strcutre is as follows,
+
+```sql
+CREATE DATABASE IF NOT EXISTS university;
+USE university;
+
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+  ID INT AUTO_INCREMENT UNIQUE,
+  Username VARCHAR(128) NOT NULL UNIQUE,
+  Password VARCHAR(256) NOT NULL,
+  Email VARCHAR(128) NOT NULL UNIQUE,
+  PRIMARY KEY (Email)
+);
+
+CREATE TABLE department (
+  dept_name VARCHAR(20),
+  building VARCHAR(15),
+  budget NUMERIC(12,2) CHECK (budget > 0),
+  PRIMARY KEY (dept_name)
+);
+
+CREATE TABLE student (
+  ID VARCHAR(5),
+  name VARCHAR(20) NOT NULL,
+  dept_name VARCHAR(20),
+  tot_cred NUMERIC(3,0) CHECK (tot_cred >= 0),
+  PRIMARY KEY (ID),
+  FOREIGN KEY (dept_name) REFERENCES department (dept_name)
+  ON DELETE SET NULL
+);
+
+INSERT INTO department VALUES ('Biology', 'Watson', '90000');
+INSERT INTO department VALUES ('Comp. Sci.', 'Taylor', '100000');
+INSERT INTO department VALUES ('Elec. Eng.', 'Taylor', '85000');
+INSERT INTO department VALUES ('Finance', 'Painter', '120000');
+INSERT INTO department VALUES ('History', 'Painter', '50000');
+INSERT INTO department VALUES ('Music', 'Packard', '80000');
+INSERT INTO department VALUES ('Physics', 'Watson', '70000');
+
+INSERT INTO student VALUES ('00128', 'Zhang', 'Comp. Sci.', '102');
+INSERT INTO student VALUES ('12345', 'Shankar', 'Comp. Sci.', '32');
+INSERT INTO student VALUES ('19991', 'Brandt', 'History', '80');
+INSERT INTO student VALUES ('23121', 'Chavez', 'Finance', '110');
+INSERT INTO student VALUES ('44553', 'Peltier', 'Physics', '56');
+INSERT INTO student VALUES ('45678', 'Levy', 'Physics', '46');
+INSERT INTO student VALUES ('54321', 'Williams', 'Comp. Sci.', '54');
+INSERT INTO student VALUES ('55739', 'Sanchez', 'Music', '38');
+INSERT INTO student VALUES ('70557', 'Snow', 'Physics', '0');
+INSERT INTO student VALUES ('76543', 'Brown', 'Comp. Sci.', '58');
+INSERT INTO student VALUES ('76653', 'Aoi', 'Elec. Eng.', '60');
+INSERT INTO student VALUES ('98765', 'Bourikas', 'Elec. Eng.', '98');
+INSERT INTO student VALUES ('98988', 'Tanaka', 'Biology', '120');
+```
+
+> Full database schema can be found in [this URL](https://github.com/SharafatKarim/pstu-cse-academic/tree/main/Semester%204/database/MySQL/sample%20table).
 
 ## API
 
